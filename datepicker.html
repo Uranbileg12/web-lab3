@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+  <head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="datepicker.css" />
+  </head>
+  <body>
+    <div>
+    <input type="text" name="search" id="search" placeholder="Тэмдэглэлт өдөр хайх" class="form-control"/>
+   </div>
+   <ul class="list-group" id="result"></ul>
+   <br />
+  </div>
+    <h1>First DatePicker</h1>
+    <div id="datepicker1" class="Date-cont"></div>
+    <script type="text/javascript" src="DatePicker.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        datePicker1 = new DatePicker("datepicker1", function (id, fixedDate) {
+          console.log("DatePicker with id", id,
+                  "selected date:", fixedDate.month + "/" + fixedDate.day + "/" + fixedDate.year);
+        });
+        datePicker1.render(new Date());
+        datePicker2 = new DatePicker("datepicker2", function (id, fixedDate) {
+          console.log("DatePicker with id", id,
+                  "selected date:", fixedDate.month + "/" + fixedDate.day + "/" + fixedDate.year);
+        });
+$(document).ready(function(){
+ $.ajaxSetup({ cache: false });
+ $('#search').keyup(function(){
+  $('#result').html('');
+  $('#state').val('');
+  var searchField = $('#search').val();
+  var expression = new RegExp(searchField, "i");
+  $.getJSON('data.json', function(data) {
+   $.each(data, function(value){
+     $('#result').append('<li class="list-group-item link-class"> '+value+' </li>');
+
+   });   
+  });
+ });
+ 
+ $('#result').on('click', 'li', function() {
+  var click_text = $(this).text().split('|');
+  $('#search').val($.trim(click_text[0]));
+  $("#result").html('');
+ });
+});
+    </script>
+  </body>
+</html>
